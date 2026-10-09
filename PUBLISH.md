@@ -29,21 +29,16 @@ Windows 真机 **84 passed + 1 skipped**（python 3.11.15 / playwright 1.63.0，
    git add .
    git commit -m "webctl 0.2.5: aiglade semi-automated web operation engine"
    git branch -M main
-   git remote add origin https://github.com/swiftcat7097/webctl.git
+   git remote add origin https://github.com/yummy342/webctl.git
    git push -u origin main
    ```
    推送时 GitHub 不接受账号密码：用 Personal Access Token（Settings →
    Developer settings → Personal access tokens）当密码，或改用 SSH 地址
-   `git@github.com:swiftcat7097/webctl.git`（需先配 SSH key），
+   `git@github.com:yummy342/webctl.git`（需先配 SSH key），
    或用 GitHub Desktop 打开该目录点 Publish。
-4. 推完刷新仓库页确认：应有 27 个文件（README.md、pyproject.toml、
+4. 推完刷新仓库页确认：应有 28 个文件（README.md、LICENSE、pyproject.toml、
    webctl/ 11 个 .py、tests/ 9 个 .py、playbooks/ 2 个、scripts/ 1 个、
    .gitignore、本文件）。
-
-## 一个待你定的点
-本包**未附 LICENSE**——GitHub 上无许可证 = 默认保留全部权利，他人不可
-合法复用。若想真开源（如引流），自行加一个（如 MIT：仓库页 Add file →
-Create new file → 文件名 LICENSE → 右侧 Choose a license template）。
 
 ## 0.2.4 变更（2026-10-09，审查 P1 全修）
 - vault 原子写临时文件 0600 创建（P1-1）；已存在 vault 文件重开复查权限（P1-2）
@@ -71,7 +66,3 @@ Create new file → 文件名 LICENSE → 右侧 Choose a license template）。
 - wait 补下界钳制；run_playbook 定位失败路径补计让位刻度尺
 - .gitignore 加 *.tmp（vault.json.tmp 内容与 vault 同等）；__init__.__version__
   与包版本对齐到 0.2.5
-
-**仍未定（发布前需人工拍板）**：仓归 swiftcat7097 但手头可用的 GitHub 令牌
-属于 yummy342；本包未附 LICENSE；内部代号（选型线 F4 / 代操作 / yields.py 的
-类名 daichaozuo）与项目名 aiglade 是否随公开仓一并保留。
