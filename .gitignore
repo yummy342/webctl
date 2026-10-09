@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+# webctl 运行时产物（真实凭据与登录态绝不入库）
+profiles/
+vault/
+audit/
+downloads/
+*.vault.json
+vault.json
+# credentials.py 的原子写临时文件叫 vault.json.tmp，内容与 vault 同等（全明文）。
+# 只忽略 vault.json 而不忽略 .tmp，会在写入崩半路时把它留成可提交文件。
+*.tmp

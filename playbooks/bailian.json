@@ -1,0 +1,92 @@
+{
+ "entry_url": "https://bailian.console.aliyun.com/?tab=model#/api-key",
+ "name": "bailian-create-api-key",
+ "notes": "声明式步骤对齐 webctl/playbook.py 的 Playbook.from_dict 格式。expect 只用 url_contains / ax_contains / title_contains 三种已实现校验；target_name 为百炼控制台公开流程推定的按钮文案，未经登录态实测，首次真跑前须逐个校准——定位不到即按 §8 低置信让位，不许硬续。",
+ "probe": {
+  "auth": "Authorization: Bearer <<vault:bailian_api_key>>",
+  "expect_status": 200,
+  "method": "GET",
+  "on_failure": "不删 vault 值，标 unverified，复核提示带 HTTP 状态/错误类型（§7 定版）",
+  "url": "https://dashscope.aliyuncs.com/compatible-mode/v1/models"
+ },
+ "provider": "aliyun-bailian",
+ "revoke": {
+  "rule": "删除属 §5 不可逆类：必须人确认后才执行；删后重跑 probe，预期转失败才算撤销真生效",
+  "where": "同一 API-Key 管理页，对目标 key 行执行删除",
+  "yield_class": "irreversible"
+ },
+ "status": "UNVERIFIED_PAGE_LABELS",
+ "steps": [
+  {
+   "action": {
+    "kind": "navigate",
+    "url": "https://bailian.console.aliyun.com/?tab=model#/api-key"
+   },
+   "expect": {},
+   "name": "打开百炼控制台 API-Key 页"
+  },
+  {
+   "action": null,
+   "expect": {
+    "url_contains": "api-key"
+   },
+   "name": "停靠检查：登录/实名/授权页在此步由 session 让位引擎拦截（代操作策略层登录强制停靠）"
+  },
+  {
+   "action": {
+    "kind": "click",
+    "target_name": "创建API Key"
+   },
+   "expect": {
+    "ax_contains": "API",
+    "url_contains": "api-key"
+   },
+   "name": "点击创建 API Key（文案待实测校准：创建API Key / 创建 API-KEY）"
+  },
+  {
+   "action": null,
+   "expect": {
+    "ax_contains": "业务空间"
+   },
+   "name": "在创建弹窗选归属：业务空间（优先显式业务空间，不用默认空间承载生产）",
+   "sensitive": false
+  },
+  {
+   "action": null,
+   "expect": {
+    "ax_contains": "IP"
+   },
+   "name": "配置最小权限：IP 白名单 + 可访问模型范围（字段名待实测校准；无明确需求时白名单留空须向人确认）",
+   "sensitive": false
+  },
+  {
+   "action": null,
+   "expect": {
+    "ax_contains": "确定"
+   },
+   "name": "确认创建（授权确认类弹窗命中即停靠交人，不自动点）",
+   "human_stop": "authorization"
+  },
+  {
+   "action": null,
+   "expect": {
+    "ax_contains": "API-KEY"
+   },
+   "harvest": {
+    "vault_name": "bailian_api_key",
+    "extract_regex": "sk-[A-Za-z0-9_-]{16,}"
+   },
+   "name": "一次性 harvest：key 明文只显示一次，执行器内部读一次直入 vault（占位符 <<vault:bailian_api_key>>），本步审计抑图",
+   "sensitive": true
+  },
+  {
+   "action": {
+    "kind": "click",
+    "target_name": "关闭"
+   },
+   "expect": {},
+   "name": "关闭明文弹窗（关闭后不可再查看明文）"
+  }
+ ],
+ "version": "draft-0.1-20261008"
+}

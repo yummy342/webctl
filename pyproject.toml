@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "webctl"
+version = "0.2.5"
+description = "半自动网页控制套件（规格 v1.1 实现）：AI 主跑、人随时接管、卡点自然落人手"
+requires-python = ">=3.11"
+dependencies = [
+    "playwright==1.63.0",
+    "Pillow>=10",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["webctl*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
